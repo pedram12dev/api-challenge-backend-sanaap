@@ -2,19 +2,23 @@ from config.env import env
 
 # https://docs.celeryproject.org/en/stable/userguide/configuration.html
 
-CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='amqp://guest:guest@localhost//')
-CELERY_RESULT_BACKEND = 'django-db'
+# RabbitMQ as message broker
+CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="amqp://guest:guest@localhost:5672//")
 
-CELERY_TIMEZONE = 'UTC'
+# Store task results in Django DB
+CELERY_RESULT_BACKEND = "django-db"
+
+CELERY_TIMEZONE = "UTC"
 
 CELERY_TASK_SOFT_TIME_LIMIT = 20  # seconds
-CELERT_TASK_TIME_LIMIT = 30  # seconds
+CELERY_TASK_TIME_LIMIT = 30  # seconds
 CELERY_TASK_MAX_RETRIES = 3
 
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
 CELERY_BEAT_SCHEDULE = {
-    'notify_customers': {
-        'task': 'config.tasks.notify_customers',
-        'schedule': 500,
-        'args': ['Hello World'],
-    }
+    "cleanup_orphaned_files": {
+        "task": "apichallenge.documents.tasks.cleanup_orphaned_files",
+        "schedule": 86400,  # once a day
+    },
 }
