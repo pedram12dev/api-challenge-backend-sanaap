@@ -1,0 +1,75 @@
+import django.db.models.deletion
+import django.utils.timezone
+from django.conf import settings
+from django.db import migrations, models
+
+import apichallenge.documents.models
+
+
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='Document',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('created_at', models.DateTimeField(db_index=True, default=django.utils.timezone.now)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+                ('title', models.CharField(max_length=255)),
+                ('description', models.TextField(blank=True, default='')),
+                ('file', models.FileField(upload_to=apichallenge.documents.models.document_upload_path)),
+                ('file_name', models.CharField(max_length=255)),
+                ('file_size', models.PositiveBigIntegerField(default=0)),
+                ('content_type', models.CharField(blank=True, default='', max_length=100)),
+                ('uploaded_by', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='documents',
+                    to=settings.AUTH_USER_MODEL,
+                )),
+            ],
+            options={
+                'ordering': ['-created_at'],
+            },
+        ),
+        migrations.CreateModel(
+            name='AuditLog',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('action', models.CharField(
+                    choices=[
+                        ('create', 'Create'),
+                        ('read', 'Read'),
+                        ('update', 'Update'),
+                        ('delete', 'Delete'),
+                        ('download', 'Download'),
+                    ],
+                    max_length=10,
+                )),
+                ('document_title', models.CharField(blank=True, default='', max_length=255)),
+                ('ip_address', models.GenericIPAddressField(blank=True, null=True)),
+                ('details', models.TextField(blank=True, default='')),
+                ('timestamp', models.DateTimeField(auto_now_add=True, db_index=True)),
+                ('document', models.ForeignKey(
+                    null=True,
+                    on_delete=django.db.models.deletion.SET_NULL,
+                    related_name='audit_logs',
+                    to='documents.document',
+                )),
+                ('user', models.ForeignKey(
+                    null=True,
+                    on_delete=django.db.models.deletion.SET_NULL,
+                    related_name='audit_logs',
+                    to=settings.AUTH_USER_MODEL,
+                )),
+            ],
+            options={
+                'ordering': ['-timestamp'],
+            },
+        ),
+    ]

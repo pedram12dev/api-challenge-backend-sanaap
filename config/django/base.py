@@ -14,7 +14,8 @@ LOCAL_APPS = [
     "apichallenge.core.apps.CoreConfig",
     "apichallenge.common.apps.CommonConfig",
     "apichallenge.users.apps.UsersConfig",
-    "apichallenge.authentication.apps.AuthenticationConfig"
+    "apichallenge.authentication.apps.AuthenticationConfig",
+     "apichallenge.documents.apps.DocumentsConfig"
 ]
 
 THIRD_PARTY_APPS = [
