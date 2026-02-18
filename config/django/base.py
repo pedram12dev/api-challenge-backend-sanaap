@@ -15,7 +15,7 @@ LOCAL_APPS = [
     "apichallenge.common.apps.CommonConfig",
     "apichallenge.users.apps.UsersConfig",
     "apichallenge.authentication.apps.AuthenticationConfig",
-     "apichallenge.documents.apps.DocumentsConfig"
+    "apichallenge.documents.apps.DocumentsConfig",
 ]
 
 THIRD_PARTY_APPS = [
@@ -126,8 +126,39 @@ CACHES = {
 CACHE_TTL = 60 * 15  # 15 minutes
 
 
+MINIO_ENDPOINT = env("MINIO_ENDPOINT", default="localhost:9000")
+MINIO_ACCESS_KEY = env("MINIO_ACCESS_KEY", default="minioadmin")
+MINIO_SECRET_KEY = env("MINIO_SECRET_KEY", default="minioadmin")
+MINIO_BUCKET_NAME = env("MINIO_BUCKET_NAME", default="documents")
+MINIO_USE_SSL = env.bool("MINIO_USE_SSL", default=False)
+MINIO_SCHEME = "https" if MINIO_USE_SSL else "http"
+
+STORAGES["default"] = {
+    "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+}
+
+AWS_ACCESS_KEY_ID = MINIO_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY = MINIO_SECRET_KEY
+AWS_STORAGE_BUCKET_NAME = MINIO_BUCKET_NAME
+AWS_S3_ENDPOINT_URL = f"{MINIO_SCHEME}://{MINIO_ENDPOINT}"
+AWS_S3_USE_SSL = MINIO_USE_SSL
+AWS_S3_VERIFY = MINIO_USE_SSL
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = True
+AWS_QUERYSTRING_EXPIRE = 3600
+AWS_S3_FILE_OVERWRITE = False
+
 MEDIA_URL = "/media/"
 
+ASGI_APPLICATION = "config.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [env("REDIS_LOCATION", default="redis://localhost:6379/0")],
+        },
+    }
+}
 
 APP_DOMAIN = env("APP_DOMAIN", default="http://localhost:8000")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
