@@ -77,7 +77,7 @@ A secure, role-based Document Management System built with **Django REST Framewo
 ### 1. Clone & Configure
 
 ```bash
-git clone https://github.com/<your-username>/api-challenge-backend-sanaap.git
+git clone https://github.com/pedram12dev/api-challenge-backend-sanaap
 cd api-challenge-backend-sanaap
 
 touch .env 
@@ -171,8 +171,6 @@ GET /api/documents/?title=report&content_type=pdf&created_after=2025-01-01&limit
 docker compose exec django bash
 
 python manage.py test
-
----
 
 ## Project Structure
 
