@@ -8,20 +8,20 @@ A secure, role-based Document Management System built with **Django REST Framewo
 
 ```
                           ┌──────────────────────────────────────┐
-                          │         Nginx (Docker)                │
+                          │         Nginx (Docker)               │
                           │         Reverse Proxy :80            │
                           └──────────┬───────────────────────────┘
                                      │
                           ┌──────────▼───────────────────────────┐
-                          │       Django / DRF (Gunicorn)       │
+                          │       Django / DRF (Gunicorn)        │
                           │              :8000                   │
-                          └──┬─────┬─────────┬──────────┬───────┘
-                             │     │         │          │
-                    ┌────────▼┐ ┌──▼──────┐ ┌▼────────┐ ┌▼──────────┐
-                    │PostgreSQL│ │  Redis  │ │ RabbitMQ│ │   MinIO   │
-                    │  :5432   │ │ (cache) │ │ (broker)│ │ (storage) │
-                    │          │ │  :6379  │ │  :5672  │ │   :9000   │
-                    └──────────┘ └─────────┘ └────┬────┘ └───────────┘
+                          └─────────────────────────‌‌‌‌‌‌-----───────-┘
+                               │      │         │           │
+                      ┌────────▼┐  ┌──▼──────┐ ┌▼────────┐ ┌▼──────────┐
+                      │PostgreSQL│ │  Redis  │ │ RabbitMQ│ │   MinIO   │
+                      │  :5432   │ │ (cache) │ │ (broker)│ │ (storage) │
+                      │          │ │  :6379  │ │  :5672  │ │   :9000   │
+                      └──────────┘ └─────────┘ └──┬──────┘ └───────────┘
                                                   │
                                            ┌──────▼──────┐
                                            │   Celery    │
@@ -124,7 +124,7 @@ docker compose exec django python manage.py createsuperuser
 | POST   | `/api/auth/jwt/login/`   | Get JWT tokens       |
 | POST   | `/api/auth/jwt/refresh/` | Refresh access token |
 | POST   | `/api/auth/jwt/verify/`  | Verify token         |
-| POST   | `/api/auth/register/`    | Register new user    |
+| POST   | `/api/users/register/`   | Register new user    |
 
 ### Documents
 
