@@ -172,6 +172,8 @@ docker compose exec django bash
 
 python manage.py test
 
+```
+---
 ## Project Structure
 
 ```
