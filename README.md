@@ -210,7 +210,7 @@ python manage.py test
 │   ├── celery_entrypoint.sh # Celery worker startup
 │   └── beats_entrypoint.sh  # Celery beat startup
 ├── docker-compose.yml       # PostgreSQL + Redis + RabbitMQ + MinIO + Django + Celery + Nginx
-├── .env                     # Environment variables
+├── .env.example             # Environment variables
 ├── requirements/            # Python dependencies
 └── pytest.ini               # Test config
 ```
