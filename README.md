@@ -217,18 +217,4 @@ python manage.py test
 
 ---
 
-## Environment Variables
-
-| Variable            | Default                           | Description              |
-|---------------------|-----------------------------------|--------------------------|
-| `SECRET_KEY`        | (see .env)                        | Django secret key        |
-| `DEBUG`             | `True`                            | Debug mode               |
-| `DATABASE_URL`      | `psql://postgres:postgres@db:...` | PostgreSQL connection    |
-| `REDIS_LOCATION`    | `redis://redis:6379/0`            | Redis (cache + channels) |
-| `CELERY_BROKER_URL` | `amqp://guest:guest@rabbitmq:...` | RabbitMQ broker          |
-| `MINIO_ENDPOINT`    | `minio:9000`                      | MinIO server             |
-| `MINIO_ACCESS_KEY`  | `minioadmin`                      | MinIO access key         |
-| `MINIO_SECRET_KEY`  | `minioadmin`                      | MinIO secret key         |
-| `MINIO_BUCKET_NAME` | `documents`                       | MinIO bucket name        |
-
 > ⚠️ **Production**: Change `SECRET_KEY`, `POSTGRES_PASSWORD`, `MINIO_ACCESS_KEY/SECRET_KEY`, `RABBITMQ_PASS` to strong unique values. Set `DEBUG=False`.
